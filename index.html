@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Guia rápido da coleta seletiva do Instituto Evereste: onde descartar cada resíduo, com atenção especial ao rejeito.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 76'%3E%3Crect x='22' y='0.5' width='20' height='8' rx='3' fill='%235B646B'/%3E%3Crect x='3' y='7' width='58' height='11' rx='3.5' fill='%235B646B'/%3E%3Cpath d='M8 21h48l-4.6 51.5a3 3 0 0 1-3 2.5H15.6a3 3 0 0 1-3-2.5z' fill='%231E8743'/%3E%3C/svg%3E">
+<title>Coleta Seletiva Evereste</title>
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: painel de sinalização de ilha de coleta — faixa de "tampas" nas 6 cores no topo, busca como totem, faixa cinza do rejeito como ponto alto. */
+:root{
+  --bg:#F1F5F3; --surface:#FFFFFF; --ink:#13211B; --muted:#51615A; --line:#D3DDD8; --chip:#E4ECE8; --focus:#0B6E4F;
+  --azul:#1F6FD1; --vermelho:#C9372C; --amarelo:#F2BE1A; --verde:#1E8743; --marrom:#85562B; --cinza:#5B646B; --fora:#D9590B;
+  --on-amarelo:#1D1906;
+  --rej-bg:#343C41; --rej-card:#414A50; --rej-line:#58626A; --rej-ink:#F2F5F6; --rej-muted:#C3CCD1;
+  --display:'Archivo','Arial Narrow',system-ui,sans-serif;
+  --body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1411; --surface:#151F1A; --ink:#E6EEEA; --muted:#A0AFA8; --line:#27342E; --chip:#1E2A24; --focus:#53C79F;
+    --rej-bg:#1C2327; --rej-card:#262F34; --rej-line:#3A454B; --rej-ink:#EEF2F4; --rej-muted:#AEB9BF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1411; --surface:#151F1A; --ink:#E6EEEA; --muted:#A0AFA8; --line:#27342E; --chip:#1E2A24; --focus:#53C79F;
+  --rej-bg:#1C2327; --rej-card:#262F34; --rej-line:#3A454B; --rej-ink:#EEF2F4; --rej-muted:#AEB9BF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.45;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.02}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.eyebrow{font-family:var(--display);font-weight:700;font-stretch:110%;text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--muted)}
+.ic{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Topo */
+.lids{display:grid;grid-template-columns:repeat(6,1fr);height:10px}
+.lids span:nth-child(1){background:var(--azul)}.lids span:nth-child(2){background:var(--vermelho)}.lids span:nth-child(3){background:var(--amarelo)}
+.lids span:nth-child(4){background:var(--verde)}.lids span:nth-child(5){background:var(--marrom)}.lids span:nth-child(6){background:var(--cinza)}
+.top{background:var(--surface);border-bottom:1px solid var(--line)}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-block:16px}
+.mark{font-family:var(--display);font-weight:900;font-stretch:125%;letter-spacing:.14em;font-size:18px}
+.unit{font-size:13px;color:var(--muted);text-align:right}
+.hero{padding-block:12px 28px;display:grid;gap:18px}
+.hero h1{font-size:clamp(44px,11vw,84px);font-weight:900;font-stretch:72%;text-transform:uppercase;letter-spacing:-.01em}
+.hero .sub{color:var(--muted);max-width:52ch}
+.search{position:relative}
+.search input{width:100%;font:inherit;font-size:19px;padding:16px 16px 16px 52px;border-radius:999px;border:2px solid var(--ink);background:var(--bg);color:var(--ink)}
+.search input::placeholder{color:var(--muted)}
+.search svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:22px;height:22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{border:1px solid var(--line);background:var(--chip);border-radius:999px;padding:8px 14px;font-size:15px;cursor:pointer}
+.chips button:hover{border-color:var(--ink)}
+.res-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.results{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.rcard{display:grid;grid-template-columns:52px 1fr;gap:12px;align-items:start;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.rcard .ri{width:52px;height:52px;border-radius:12px;background:var(--surface);border:1px solid var(--line);padding:8px;color:var(--ink)}
+.rcard h3{font-family:var(--body);font-weight:700;font-size:17px;line-height:1.25;margin-bottom:6px}
+.ans{display:grid;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:6px 10px 6px 6px;font-weight:700;font-size:15px;color:#fff;line-height:1.15;width:fit-content;max-width:100%}
+.pill .mini{width:22px;height:26px;flex:none}
+.pill.amarelo{color:var(--on-amarelo)}
+.pill small{font-weight:400;opacity:.92}
+.cond{font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.note{font-size:14px;color:var(--muted)}
+.empty{background:var(--bg);border:1px dashed var(--muted);border-radius:var(--r);padding:16px;display:grid;gap:8px}
+.bg-azul{background:var(--azul)}.bg-vermelho{background:var(--vermelho)}.bg-amarelo{background:var(--amarelo)}.bg-verde{background:var(--verde)}.bg-marrom{background:var(--marrom)}.bg-cinza{background:var(--cinza)}.bg-fora{background:var(--fora)}
+
+/* Seções */
+section{padding-block:40px}
+.sec-h{display:grid;gap:6px;margin-bottom:20px}
+.sec-h h2{font-size:clamp(30px,6vw,44px);font-weight:900;font-stretch:80%;text-transform:uppercase}
+.sec-h p{color:var(--muted)}
+
+/* Lixeiras */
+.bins{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (min-width:760px){.bins{grid-template-columns:repeat(6,1fr)}}
+.bt{display:grid;justify-items:center;gap:6px;padding:12px 6px 10px;border-radius:var(--r);border:2px solid transparent;background:var(--surface);cursor:pointer;text-align:center}
+.bt[aria-pressed="true"]{border-color:var(--ink)}
+.bt svg.bin{width:56px;height:66px}
+.bt b{font-family:var(--display);font-weight:800;font-stretch:90%;font-size:17px;text-transform:uppercase;letter-spacing:.02em}
+.bt span{font-size:13px;color:var(--muted)}
+.panel{margin-top:14px;background:var(--surface);border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.panel-h{display:flex;align-items:center;gap:14px;padding:14px 16px;color:#fff}
+.panel-h.amarelo{color:var(--on-amarelo)}
+.panel-h .bw{flex:none;background:#fff;border-radius:12px;padding:5px 6px;display:grid;place-items:center}
+.panel-h svg.bin{width:36px;height:43px;display:block}
+.panel-h h3{font-size:28px;font-weight:900;font-stretch:80%;text-transform:uppercase}
+.panel-h p{font-size:14px;opacity:.95}
+.panel-b{display:grid;gap:18px;padding:16px}
+@media (min-width:760px){.panel-b{grid-template-columns:1fr 1fr}}
+.col h4{margin:0 0 10px;font-family:var(--display);font-weight:800;font-stretch:100%;text-transform:uppercase;letter-spacing:.06em;font-size:14px;display:flex;align-items:center;gap:8px}
+.mk{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;color:#fff;font-size:13px;font-weight:700;line-height:1}
+.mk.ok{background:var(--verde)}.mk.no{background:var(--vermelho)}
+.grid-it{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.it{display:grid;justify-items:center;gap:6px;text-align:center;font-size:14px;line-height:1.2;padding:10px 6px;border-radius:12px;background:var(--bg);min-width:0}
+.it .i{width:44px;height:44px;color:var(--ink)}
+.it.no .i{color:var(--muted)}
+.it.no{position:relative}
+.it.no::after{content:"";position:absolute;top:8px;right:8px;width:16px;height:16px;border-radius:50%;background:var(--vermelho) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 5l6 6M11 5l-6 6' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.panel-f{display:flex;flex-wrap:wrap;gap:8px 20px;padding:12px 16px;border-top:1px solid var(--line);font-size:15px}
+.panel-f b{font-weight:700}
+
+/* Rejeito */
+.rej{background:var(--rej-bg);color:var(--rej-ink)}
+.rej .eyebrow{color:var(--rej-muted)}
+.rej-top{display:grid;gap:14px;align-items:end;margin-bottom:26px}
+@media (min-width:760px){.rej-top{grid-template-columns:auto 1fr;gap:28px}}
+.rej-top svg.bin{width:96px;height:114px}
+.rej h2{font-size:clamp(60px,16vw,128px);font-weight:900;font-stretch:66%;text-transform:uppercase;line-height:.86}
+.rej .lead{font-size:clamp(22px,4.6vw,30px);font-family:var(--display);font-weight:700;font-stretch:95%;line-height:1.15;margin-top:8px}
+.rej .lead strong{background:var(--rej-ink);color:var(--rej-bg);padding:0 .25em;border-radius:4px;white-space:nowrap;display:inline-block}
+.rej h3{font-size:24px;font-weight:800;font-stretch:85%;text-transform:uppercase;margin:34px 0 14px}
+.rej .grid-it{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+.rej .it{background:var(--rej-card);color:var(--rej-ink)}
+.rej .it .i{color:var(--rej-ink)}
+.pairs{display:grid;gap:10px}
+@media (min-width:760px){.pairs{grid-template-columns:1fr 1fr}}
+.pair{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r);overflow:hidden;border:1px solid var(--rej-line)}
+.side{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;padding:12px;background:var(--rej-card);min-width:0}
+.side + .side{border-left:1px solid var(--rej-line)}
+.side .i{width:44px;height:44px;color:var(--rej-ink)}
+.side p{font-size:14px;color:var(--rej-muted);line-height:1.25}
+.side b{display:block;font-size:15px;color:var(--rej-ink);margin-bottom:6px}
+.side .pill{font-size:13px;padding:4px 8px 4px 4px}
+.side .pill .mini{width:16px;height:19px}
+.quiz{background:var(--rej-card);border-radius:var(--r);padding:18px;display:grid;gap:14px;border:1px solid var(--rej-line)}
+.dots{display:flex;gap:6px}
+.dots i{width:28px;height:6px;border-radius:3px;background:var(--rej-line)}
+.dots i.on{background:var(--rej-ink)}
+.q{font-size:clamp(20px,4.4vw,26px);font-family:var(--display);font-weight:700;font-stretch:92%;line-height:1.15}
+.qh{font-size:14px;color:var(--rej-muted)}
+.qb{display:flex;gap:10px;flex-wrap:wrap}
+.qb button{flex:1 1 120px;min-height:52px;border-radius:12px;border:2px solid var(--rej-ink);background:transparent;color:var(--rej-ink);font-weight:700;font-size:18px;cursor:pointer}
+.qb button.yes{background:var(--rej-ink);color:var(--rej-bg)}
+.qr-out{display:grid;gap:10px}
+.qr-out .pill{font-size:18px;padding:8px 14px 8px 8px}
+.qr-out .pill .mini{width:28px;height:33px}
+.qr-out .pills{display:flex;flex-wrap:wrap;gap:8px}
+.qr-out .pills .pill{font-size:15px;padding:6px 10px 6px 6px}
+.qr-out .pills .pill .mini{width:20px;height:24px}
+.again{justify-self:start;background:none;border:0;color:var(--rej-ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px 0;font-size:15px}
+.facts{display:grid;gap:10px;margin-top:22px}
+@media (min-width:760px){.facts{grid-template-columns:1fr 1fr}}
+.fact{border-radius:var(--r);padding:16px 18px;border:2px solid var(--rej-ink);display:grid;gap:4px}
+.fact b{font-family:var(--display);font-size:22px;font-weight:800;font-stretch:88%;line-height:1.1}
+.fact p{color:var(--rej-muted);font-size:15px}
+.fact.solid{background:var(--rej-ink);color:var(--rej-bg)}
+.fact.solid p{color:var(--rej-bg);opacity:.85}
+
+/* Fora das lixeiras */
+.fora-g{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr))}
+.fc{background:var(--surface);border-radius:var(--r);border:1px solid var(--line);padding:14px;display:grid;gap:10px;align-content:start}
+.fc .icons{display:flex;gap:6px}
+.fc .icons span{width:40px;height:40px;color:var(--ink)}
+.fc b{font-size:17px}
+.fc .to{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:15px;color:#fff;background:var(--fora);border-radius:10px;padding:6px 10px;width:fit-content}
+.fc p{font-size:14px;color:var(--muted)}
+.hazard{height:8px;border-radius:4px;background:repeating-linear-gradient(-45deg,var(--fora) 0 10px,transparent 10px 20px)}
+
+/* Regras */
+.rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr))}
+.rule{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.rule .i{width:48px;height:48px;color:var(--ink)}
+.rule b{display:block;font-size:17px;line-height:1.2}
+.rule p{font-size:14px;color:var(--muted)}
+
+/* Destino */
+.flow{display:grid;gap:10px}
+.fl{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.fl .bins-mini{display:flex;gap:3px}
+.fl .bins-mini svg{width:22px;height:26px}
+.fl p{font-size:15px}
+.fl p b{font-weight:700}
+.fl .arrow{color:var(--muted)}
+.flow-note{font-size:15px;color:var(--muted);margin-top:4px}
+
+/* Rodapé */
+footer{background:var(--surface);border-top:1px solid var(--line);padding-block:28px 36px}
+.foot{display:grid;gap:14px}
+.contact{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.contact code{font-family:var(--body);font-size:16px;font-weight:700;user-select:all;background:var(--chip);padding:6px 10px;border-radius:8px;word-break:break-all}
+.contact button{border:1px solid var(--ink);background:transparent;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:14px}
+.src{font-size:13px;color:var(--muted);max-width:70ch}
+@media (prefers-reduced-motion:no-preference){
+  .rcard,.qr-out,.panel{animation:rise .22s ease-out}
+  @keyframes rise{from{transform:translateY(4px)}to{transform:none}}
+}
+</style>
+
+
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-sheet" viewBox="0 0 48 48"><path d="M13 5h16l8 8v30H13z"/><path d="M29 5v8h8"/><path d="M18 22h14M18 28h14M18 34h9"/></symbol>
+    <symbol id="i-envelope" viewBox="0 0 48 48"><rect x="5" y="11" width="38" height="26" rx="2.5"/><path d="M5 13l19 14 19-14"/></symbol>
+    <symbol id="i-box" viewBox="0 0 48 48"><path d="M6 15l18-8 18 8v19l-18 8-18-8z"/><path d="M6 15l18 8 18-8M24 23v19"/><path d="M15 11l18 8"/></symbol>
+    <symbol id="i-pet" viewBox="0 0 48 48"><path d="M20 3h8v5h-8z"/><path d="M20 8c0 4-6 6-6 12v20a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4V20c0-6-6-8-6-12"/><path d="M14 25h20M14 33h20"/></symbol>
+    <symbol id="i-pot" viewBox="0 0 48 48"><rect x="8" y="11" width="32" height="7" rx="2.5"/><path d="M10 18l3 23a3 3 0 0 0 3 2.5h16a3 3 0 0 0 3-2.5l3-23"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 48 48"><path d="M10 9h28"/><path d="M12 9l3.2 32a2 2 0 0 0 2 1.8h13.6a2 2 0 0 0 2-1.8L36 9"/><path d="M13.6 21h20.8"/></symbol>
+    <symbol id="i-cupdirty" viewBox="0 0 48 48"><path d="M10 9h28"/><path d="M12 9l3.2 32a2 2 0 0 0 2 1.8h13.6a2 2 0 0 0 2-1.8L36 9"/><path d="M14 23h20l-1.6 17.5H15.6z" fill="currentColor" opacity=".45" stroke="none"/><path d="M38 14c2 3 2 5 0 6" /></symbol>
+    <symbol id="i-bag" viewBox="0 0 48 48"><path d="M9 16h30l-2.5 26h-25z"/><path d="M17 16v-4a7 7 0 0 1 14 0v4"/></symbol>
+    <symbol id="i-spray" viewBox="0 0 48 48"><path d="M21 3h6v6h-6z"/><path d="M19 9h10l4 7v24a4 4 0 0 1-4 4H19a4 4 0 0 1-4-4V16z"/><path d="M15 24h18"/></symbol>
+    <symbol id="i-tray" viewBox="0 0 48 48"><path d="M5 23h38v11a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M5 23l5-11h28l5 11"/><path d="M12 30h24"/></symbol>
+    <symbol id="i-lunch" viewBox="0 0 48 48"><rect x="5" y="19" width="38" height="21" rx="4"/><path d="M8 19c2-6 7-7 10-3 3-5 9-5 11 0 3-4 9-3 11 3" fill="currentColor" opacity=".45"/><circle cx="16" cy="28" r="2.2" fill="currentColor" stroke="none"/><circle cx="31" cy="32" r="2.6" fill="currentColor" stroke="none"/><circle cx="24" cy="26" r="1.6" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-can" viewBox="0 0 48 48"><ellipse cx="24" cy="9" rx="10" ry="3.2"/><path d="M14 9v30c0 1.8 4.5 3.2 10 3.2s10-1.4 10-3.2V9"/><path d="M14 16c0 1.8 4.5 3.2 10 3.2s10-1.4 10-3.2M14 32c0 1.8 4.5 3.2 10 3.2s10-1.4 10-3.2"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 48 48"><ellipse cx="24" cy="18" rx="15" ry="5.5"/><path d="M9 18v10c0 3 6.7 5.5 15 5.5s15-2.5 15-5.5V18"/><path d="M15 27v5M21 28.5v5M27 28.5v5M33 27v5"/></symbol>
+    <symbol id="i-bottle" viewBox="0 0 48 48"><path d="M21 3h6v11c0 2 7 5 7 12v14a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V26c0-7 7-10 7-12z"/><path d="M14 29h20"/><path d="M19 33v6"/></symbol>
+    <symbol id="i-jar" viewBox="0 0 48 48"><rect x="13" y="5" width="22" height="7" rx="1.8"/><path d="M15 12c-3 2-4 5-4 8v19a4 4 0 0 0 4 4h18a4 4 0 0 0 4-4V20c0-3-1-6-4-8"/><path d="M17 22v12"/></symbol>
+    <symbol id="i-broken" viewBox="0 0 48 48"><path d="M9 43l4-31 7 7 4-12 5 10 6-5 4 31z"/><path d="M20 19l-2 11 6 4M29 17l2 12-7 5"/></symbol>
+    <symbol id="i-mirror" viewBox="0 0 48 48"><ellipse cx="24" cy="20" rx="12" ry="15"/><path d="M24 35v7M17 43h14"/><path d="M18 15l6-6M18 23l11-11"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 48 48"><path d="M17 31c-4-3-6.5-7-6.5-12a13.5 13.5 0 0 1 27 0c0 5-2.5 9-6.5 12v5H17z"/><path d="M18 40h12M20 44h8"/><path d="M20 22l4 5 4-5"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 48 48"><path d="M24 15c-3-3-13-3-14 7-1 10 6 21 14 19 8 2 15-9 14-19-1-10-11-10-14-7z"/><path d="M24 15c0-4 2-8 5-10"/><path d="M26 10c4-3 8-2 9 0-3 3-6 3-9 0z"/></symbol>
+    <symbol id="i-banana" viewBox="0 0 48 48"><path d="M24 6v12"/><path d="M24 18c-7 0-13 7-15 21 7-3 11-9 13-16"/><path d="M24 18c7 0 13 7 15 21-7-3-11-9-13-16"/><path d="M24 18c-1 9-1 16-4 24h8c-3-8-3-15-4-24"/></symbol>
+    <symbol id="i-coffee" viewBox="0 0 48 48"><path d="M7 10h34L30 34H18z"/><path d="M13 18h22l-6 12H19z" fill="currentColor" opacity=".45" stroke="none"/><path d="M18 34v6h12v-6"/><path d="M14 44h20"/></symbol>
+    <symbol id="i-tp" viewBox="0 0 48 48"><ellipse cx="16" cy="21" rx="9" ry="12"/><ellipse cx="16" cy="21" rx="3" ry="4"/><path d="M16 9h19c5 0 9 5.4 9 12v0"/><path d="M16 33h14v10h12V21"/></symbol>
+    <symbol id="i-towel" viewBox="0 0 48 48"><path d="M9 13l9-6 7 5 9-5 6 8-3 8 5 8-7 8-8-3-8 5-7-6 2-9-6-6z"/><path d="M18 20l5 4 6-3M17 31l6-3 7 4"/></symbol>
+    <symbol id="i-napkin" viewBox="0 0 48 48"><path d="M7 7h34v34H7z"/><path d="M7 7l34 34"/><path d="M27 12c3-1 7 1 6 5-1 3-5 4-7 2s-2-6 1-7z" fill="currentColor" opacity=".55"/></symbol>
+    <symbol id="i-sticker" viewBox="0 0 48 48"><path d="M7 7h34v21L28 41H7z"/><path d="M41 28H31a3 3 0 0 0-3 3v10"/><path d="M14 16h14M14 22h10"/></symbol>
+    <symbol id="i-pizza" viewBox="0 0 48 48"><path d="M4 21l20-8 20 8-20 8z"/><path d="M4 21v9l20 8 20-8v-9"/><circle cx="17" cy="21" r="2.4" fill="currentColor" stroke="none"/><circle cx="27" cy="18" r="1.8" fill="currentColor" stroke="none"/><circle cx="29" cy="24" r="2.8" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-snack" viewBox="0 0 48 48"><path d="M11 9l2.6-4 2.6 4 2.6-4 2.6 4 2.6-4 2.6 4 2.6-4 2.6 4 2.6-4 2.6 4v30l-2.6 4-2.6-4-2.6 4-2.6-4-2.6 4-2.6-4-2.6 4-2.6-4-2.6 4-2.6-4z"/><path d="M17 15v18M22 13v6"/></symbol>
+    <symbol id="i-battery" viewBox="0 0 48 48"><rect x="13" y="9" width="22" height="35" rx="3"/><path d="M20 5h8v4h-8z"/><path d="M24 18v8M20 22h8M20 36h8"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 48 48"><rect x="14" y="3" width="20" height="42" rx="4"/><path d="M21 39h6"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 48 48"><rect x="5" y="7" width="38" height="26" rx="2.5"/><path d="M24 33v7M16 41h16"/></symbol>
+    <symbol id="i-toner" viewBox="0 0 48 48"><path d="M5 18h38v14H5z"/><path d="M11 18v-6h26v6M13 32v5h22v-5"/><path d="M11 25h10"/></symbol>
+    <symbol id="i-paint" viewBox="0 0 48 48"><path d="M10 15h28v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z"/><ellipse cx="24" cy="15" rx="14" ry="4"/><path d="M12 13c0-8 24-8 24 0"/><path d="M18 19v6a2 2 0 0 0 4 0v-5"/></symbol>
+    <symbol id="i-clip" viewBox="0 0 48 48"><path d="M18 35V14a6 6 0 0 1 12 0v23a4 4 0 0 1-8 0V17"/></symbol>
+    <symbol id="i-chair" viewBox="0 0 48 48"><path d="M14 5h20v20H14z"/><path d="M10 25h28M14 25v18M34 25v18M14 35h20"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 48 48"><path d="M24 5c6 10 12 16 12 24a12 12 0 0 1-24 0c0-8 6-14 12-24z"/></symbol>
+    <symbol id="i-faucet" viewBox="0 0 48 48"><path d="M6 17h20a8 8 0 0 1 8 8v3"/><path d="M6 25h16a4 4 0 0 1 4 4v-1"/><path d="M14 17v-6M9 11h10"/><path d="M34 34c-2.5 3.5-2.5 6 0 7.5 2.5-1.5 2.5-4 0-7.5z"/></symbol>
+    <symbol id="i-flat" viewBox="0 0 48 48"><path d="M4 30l20-9 20 9-20 9z"/><path d="M24 21V6M18 12l6-6 6 6"/></symbol>
+    <symbol id="i-bottle2" viewBox="0 0 48 48"><path d="M20 4h8v6h-8z"/><path d="M19 10h10v4c3 2 5 5 5 9v17a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V23c0-4 2-7 5-9z"/><path d="M14 26h20"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 48 48"><path d="M3 12h25v22H3zM28 19h9l8 8v7H28z"/><circle cx="12" cy="36" r="4"/><circle cx="36" cy="36" r="4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 48 48"><path d="M10 14h28l-3 30H13z"/><path d="M7 14h34M19 9h10"/><path d="M19 22l10 12M29 22L19 34"/></symbol>
+    <symbol id="i-search" viewBox="0 0 48 48"><circle cx="21" cy="21" r="13"/><path d="M31 31l11 11"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="lids" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="wrap">
+    <div class="brand">
+      <span class="mark">EVERESTE</span>
+      <span class="unit">Seção de Iniciativas Socioambientais</span>
+    </div>
+    <div class="hero">
+      <p class="eyebrow">Coleta seletiva · guia rápido</p>
+      <h1>Onde<br>descarto?</h1>
+      <p class="sub">Digite o que está na sua mão ou toque numa dúvida comum.</p>
+      <label class="search">
+        <span class="sr">Buscar resíduo</span>
+        <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="q" type="search" autocomplete="off" placeholder="copo, marmita, guardanapo…" enterkeyhint="search">
+      </label>
+      <div class="chips" id="chips"></div>
+      <div class="res-head"><p class="eyebrow" id="res-label">Dúvidas mais comuns</p></div>
+      <div class="results" id="results" aria-live="polite"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="lixeiras">
+    <div class="wrap">
+      <div class="sec-h">
+        <p class="eyebrow">Toque na lixeira</p>
+        <h2>As 6 lixeiras</h2>
+      </div>
+      <div class="bins" id="bins" role="group" aria-label="Lixeiras"></div>
+      <div class="panel" id="panel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="rej" id="rejeito">
+    <div class="wrap">
+      <div class="rej-top">
+        <div id="rej-bin"></div>
+        <div>
+          <p class="eyebrow">Lixeira cinza · a que mais gera dúvida</p>
+          <h2>Rejeito</h2>
+          <p class="lead">Está sujo ou não é reciclável? <strong>É rejeito.</strong></p>
+        </div>
+      </div>
+
+      <h3>Vai no cinza</h3>
+      <div class="grid-it" id="rej-items"></div>
+
+      <h3>Limpo ou sujo?</h3>
+      <div class="pairs" id="pairs"></div>
+
+      <h3>Descubra em 4 perguntas</h3>
+      <div class="quiz" id="quiz"></div>
+
+      <div class="facts">
+        <div class="fact">
+          <b>Uma embalagem suja contamina o lote reciclável inteiro.</b>
+          <p>O lote contaminado vira rejeito. Esvazie e enxágue antes de descartar.</p>
+        </div>
+        <div class="fact solid">
+          <b>Consultou o guia e ainda ficou na dúvida? Cinza.</b>
+          <p>Na dúvida, não misture com os recicláveis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fora">
+    <div class="wrap">
+      <div class="sec-h">
+        <p class="eyebrow">Atenção</p>
+        <h2>Não vai em nenhuma lixeira</h2>
+      </div>
+      <div class="fora-g" id="fora-g"></div>
+    </div>
+  </section>
+
+  <section id="regras">
+    <div class="wrap">
+      <div class="sec-h">
+        <p class="eyebrow">Antes de descartar</p>
+        <h2>Regras de ouro</h2>
+      </div>
+      <div class="rules">
+        <div class="rule"><span class="i"><svg class="ic" viewBox="0 0 48 48"><use href="#i-faucet"/></svg></span><div><b>Esvazie e enxágue</b><p>Retire o excesso de sujeira das embalagens.</p></div></div>
+        <div class="rule"><span class="i"><svg class="ic" viewBox="0 0 48 48"><use href="#i-cap"/></svg></span><div><b>Separe a tampa</b><p>Plástica no vermelho. Metálica no amarelo.</p></div></div>
+        <div class="rule"><span class="i"><svg class="ic" viewBox="0 0 48 48"><use href="#i-flat"/></svg></span><div><b>Desmonte as caixas</b><p>Caixa de papelão limpa vai aberta no azul.</p></div></div>
+        <div class="rule"><span class="i"><svg class="ic" viewBox="0 0 48 48"><use href="#i-bottle2"/></svg></span><div><b>Evite descartáveis</b><p>Traga sua garrafa e sua marmita.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="destino">
+    <div class="wrap">
+      <div class="sec-h">
+        <p class="eyebrow">Depois da lixeira</p>
+        <h2>Para onde vai</h2>
+      </div>
+      <div class="flow" id="flow"></div>
+      <p class="flow-note">Reciclável limpo jogado no cinza vai parar no aterro.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="eyebrow">Dúvidas e sugestões</p>
+    <p><b>Seção de Iniciativas Socioambientais (SIS)</b></p>
+    <div class="contact">
+      <code id="mail">comunicacao@evereste.org.br</code>
+      <button type="button" id="copy">Copiar e-mail</button>
+    </div>
+    <p class="src">Orientações conforme o Plano de Gerenciamento de Resíduos Sólidos do Instituto Evereste (PLN.SIS.007, revisão 3.0), o Guia Prático de Coleta Seletiva da SIS e o padrão de cores da Resolução CONAMA nº 275/2001. Atualizado em novembro de 2026.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var BINS = {
+    azul:{nome:'Papel',cor:'Azul',icon:'sheet',
+      pode:[['sheet','Papel sulfite'],['envelope','Envelopes'],['box','Caixas desmontadas'],['sheet','Rascunhos já usados']],
+      nao:[['tp','Papel higiênico'],['towel','Papel toalha'],['napkin','Guardanapo usado'],['pizza','Papel engordurado']],
+      dica:'Limpo e seco. Desmonte as caixas.',destino:'Reciclagem'},
+    vermelho:{nome:'Plástico',cor:'Vermelho',icon:'pet',
+      pode:[['pet','Garrafas PET'],['pot','Potes'],['cup','Copos sem líquido'],['spray','Embalagens de limpeza vazias'],['tray','Isopor limpo'],['cap','Tampas plásticas']],
+      nao:[['lunch','Embalagem com comida'],['snack','Embalagem metalizada']],
+      dica:'Esvazie e enxágue.',destino:'Reciclagem'},
+    amarelo:{nome:'Metal',cor:'Amarelo',icon:'can',
+      pode:[['can','Latas de bebida'],['can','Latas de alimento lavadas'],['cap','Tampas metálicas']],
+      nao:[['battery','Pilhas'],['paint','Latas de tinta ou solvente'],['clip','Clipes enferrujados']],
+      dica:'Lave as latas.',destino:'Reciclagem'},
+    verde:{nome:'Vidro',cor:'Verde',icon:'bottle',
+      pode:[['bottle','Garrafas inteiras'],['jar','Potes inteiros']],
+      nao:[['broken','Vidro quebrado'],['mirror','Espelho'],['bulb','Lâmpada']],
+      dica:'Lavado e sem tampa. Vidro quebrado: entregue à equipe de limpeza.',destino:'Reciclagem'},
+    marrom:{nome:'Orgânico',cor:'Marrom',icon:'apple',
+      pode:[['apple','Restos de alimentos'],['banana','Cascas de frutas'],['coffee','Borra de café']],
+      nao:[['napkin','Guardanapos'],['lunch','Embalagens'],['drop','Líquidos']],
+      dica:'Só restos de alimentos.',destino:'Coleta pública municipal'},
+    cinza:{nome:'Rejeito',cor:'Cinza',icon:'x',
+      pode:[['tp','Papel higiênico'],['towel','Papel toalha'],['napkin','Guardanapos sujos'],['lunch','Marmitas sujas'],['cupdirty','Copos sujos'],['sticker','Adesivos']],
+      nao:[['pet','Recicláveis limpos'],['battery','Pilhas'],['phone','Eletrônicos']],
+      dica:'O que está sujo ou não é reciclável.',destino:'Coleta pública municipal, aterro sanitário'}
+  };
+  var ORDER = ['azul','vermelho','amarelo','verde','marrom','cinza'];
+  var SP = {
+    recepcao:'Coletores da recepção',
+    limpeza:'Entregue à equipe de limpeza',
+    fluxo:'Fluxo próprio: não vai nos coletores',
+    sis:'Não vai nos coletores: fale com a SIS'
+  };
+  // [nome, palavras-chave, ícone, resposta]
+  var ITEMS = [
+    ['Copo descartável','copo copinho descartavel plastico agua cafe suco','cup',{split:[['Limpo, sem líquido','vermelho'],['Com café, suco ou sujo','cinza']]}],
+    ['Garrafa PET','garrafa pet plastico refrigerante agua','pet',{bin:'vermelho',n:'Esvazie. A tampa plástica também vai no vermelho.'}],
+    ['Pote plástico','pote vasilha potinho iogurte plastico','pot',{split:[['Esvaziado e enxaguado','vermelho'],['Com comida grudada','cinza']]}],
+    ['Marmita ou quentinha','marmita quentinha delivery embalagem comida almoco viagem','lunch',{split:[['Plástica, esvaziada e enxaguada','vermelho'],['Com comida grudada ou gordura','cinza']]}],
+    ['Isopor','isopor bandeja eps marmita','tray',{split:[['Limpo','vermelho'],['Sujo de comida','cinza']]}],
+    ['Sacola plástica','sacola saco sacolinha plastico','bag',{bin:'vermelho',n:'Limpa.'}],
+    ['Embalagem de produto de limpeza','detergente desinfetante sabao amaciante alcool limpeza frasco','spray',{bin:'vermelho',n:'Vazia e enxaguada.'}],
+    ['Tampa de garrafa ou pote','tampa tampinha','cap',{split:[['Plástica','vermelho'],['Metálica','amarelo']]}],
+    ['Embalagem metalizada','salgadinho biscoito bolacha chips metalizada pacote','snack',{bin:'cinza',n:'Não vai no plástico.'}],
+    ['Papel sulfite ou folha impressa','papel sulfite folha impressao a4','sheet',{bin:'azul',n:'Limpo e seco. Reutilize como rascunho antes.'}],
+    ['Envelope','envelope','envelope',{bin:'azul'}],
+    ['Caixa de papelão','caixa papelao','box',{split:[['Limpa e desmontada','azul'],['Engordurada, como caixa de pizza','cinza']]}],
+    ['Jornal ou revista','jornal revista folheto','sheet',{bin:'azul',n:'Limpo e seco.'}],
+    ['Caixa de pizza','pizza caixa engordurada','pizza',{bin:'cinza',n:'Papel com gordura não recicla.'}],
+    ['Papel engordurado','papel engordurado gordura sujo','napkin',{bin:'cinza'}],
+    ['Guardanapo usado','guardanapo','napkin',{bin:'cinza',n:'Não vai no azul nem no marrom.'}],
+    ['Papel toalha','papel toalha mao','towel',{bin:'cinza'}],
+    ['Papel higiênico','papel higienico banheiro','tp',{bin:'cinza'}],
+    ['Lixo de banheiro','banheiro absorvente fralda sanitario','tp',{bin:'cinza'}],
+    ['Adesivo ou etiqueta','adesivo etiqueta','sticker',{bin:'cinza'}],
+    ['Lata de bebida','lata latinha refrigerante cerveja suco aluminio','can',{bin:'amarelo',n:'Esvazie.'}],
+    ['Lata de alimento','lata milho ervilha sardinha atum conserva','can',{bin:'amarelo',n:'Lavada.'}],
+    ['Lata de tinta ou solvente','tinta solvente thinner verniz','paint',{sp:'sis',n:'Não vai no amarelo.'}],
+    ['Garrafa de vidro','garrafa vidro','bottle',{bin:'verde',n:'Inteira, lavada e sem tampa.'}],
+    ['Pote de vidro','pote vidro conserva','jar',{bin:'verde',n:'Inteiro, lavado e sem tampa.'}],
+    ['Vidro quebrado','vidro quebrado caco copo de vidro','broken',{sp:'limpeza',n:'A equipe acondiciona em recipiente rígido com aviso.'}],
+    ['Espelho','espelho','mirror',{sp:'sis',n:'Não vai no verde.'}],
+    ['Lâmpada','lampada led fluorescente','bulb',{sp:'fluxo',n:'Segue logística reversa.'}],
+    ['Pilha ou bateria','pilha bateria','battery',{sp:'recepcao'}],
+    ['Celular, carregador ou cabo','celular carregador cabo fone mouse teclado eletronico','phone',{sp:'recepcao',n:'Pequenos eletrônicos.'}],
+    ['Computador, monitor ou impressora','computador notebook monitor impressora cpu eletronico','monitor',{sp:'fluxo',n:'Programa Descarte Correto.'}],
+    ['Cartucho ou toner','cartucho toner impressora','toner',{sp:'fluxo',n:'Programa Descarte Correto.'}],
+    ['Resto de comida','resto comida sobra almoco arroz feijao','apple',{bin:'marrom',n:'Sem guardanapo e sem embalagem.'}],
+    ['Casca de fruta','casca fruta banana laranja','banana',{bin:'marrom'}],
+    ['Borra de café','borra cafe po','coffee',{bin:'marrom'}],
+    ['Móveis e volumosos','movel moveis cadeira mesa armario volumoso','chair',{sp:'sis',n:'Fluxo próprio de volumosos.'}]
+  ];
+  var CHIPS = ['Copo','Marmita','Guardanapo','Papel toalha','Isopor','Tampa','Pilha','Vidro quebrado','Caixa de pizza','Lâmpada'];
+  var DEFAULTS = ['Copo descartável','Marmita ou quentinha','Guardanapo usado'];
+
+  function $(id){return document.getElementById(id)}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function norm(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim()}
+  function ic(name){return '<svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><use href="#i-'+name+'"/></svg>'}
+  function bin(key,cls){
+    var c='var(--'+key+')', ink = key==='amarelo' ? 'var(--on-amarelo)' : '#fff';
+    return '<svg class="bin '+(cls||'')+'" viewBox="0 0 64 76" aria-hidden="true">'+
+      '<rect x="22" y="0.5" width="20" height="8" rx="3" fill="'+c+'"/>'+
+      '<rect x="3" y="7" width="58" height="11" rx="3.5" fill="'+c+'"/>'+
+      '<path d="M8 21h48l-4.6 51.5a3 3 0 0 1-3 2.5H15.6a3 3 0 0 1-3-2.5z" fill="'+c+'"/>'+
+      '<path d="M8.4 25h47.2" stroke="rgba(0,0,0,.2)" stroke-width="3"/>'+
+      '<g transform="translate(17 32) scale(.625)" style="color:'+ink+'" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-'+BINS[key].icon+'" width="48" height="48"/></g>'+
+    '</svg>';
+  }
+  function miniBin(key){
+    var c = key==='amarelo' ? 'var(--on-amarelo)' : '#fff';
+    return '<svg class="mini" viewBox="0 0 22 26" aria-hidden="true"><rect x="1" y="2" width="20" height="4" rx="1.5" fill="'+c+'" opacity=".95"/><path d="M3 8h16l-1.6 16H4.6z" fill="'+c+'" opacity=".95"/></svg>';
+  }
+  function pill(key){
+    var b=BINS[key];
+    return '<span class="pill bg-'+key+' '+key+'">'+miniBin(key)+'<span>'+b.cor+' <small>· '+b.nome+'</small></span></span>';
+  }
+  function pillShort(key){
+    return '<span class="pill bg-'+key+' '+key+'">'+miniBin(key)+'<span>'+BINS[key].cor+'</span></span>';
+  }
+  function spPill(k){
+    return '<span class="pill bg-fora">'+miniBin('cinza')+'<span>'+esc(SP[k])+'</span></span>';
+  }
+
+  /* Busca */
+  var IDX = ITEMS.map(function(it){return {it:it,h:norm(it[0]+' '+it[1]),n:norm(it[0])}});
+  function answer(a){
+    if(a.split){
+      return a.split.map(function(s){return '<div class="cond"><span>'+esc(s[0])+'</span>'+pill(s[1])+'</div>'}).join('');
+    }
+    var out = a.bin ? pill(a.bin) : spPill(a.sp);
+    if(a.n) out += '<p class="note">'+esc(a.n)+'</p>';
+    return out;
+  }
+  function card(it){
+    return '<article class="rcard"><span class="ri">'+ic(it[2])+'</span><div><h3>'+esc(it[0])+'</h3><div class="ans">'+answer(it[3])+'</div></div></article>';
+  }
+  function search(q){
+    var nq = norm(q), out=$('results'), lab=$('res-label');
+    if(!nq){
+      lab.textContent='Dúvidas mais comuns';
+      out.innerHTML = DEFAULTS.map(function(n){return card(ITEMS.filter(function(i){return i[0]===n})[0])}).join('');
+      return;
+    }
+    var words = nq.split(/\s+/);
+    var hits = IDX.filter(function(x){return words.every(function(w){return x.h.indexOf(w)>-1})});
+    hits.sort(function(a,b){return (b.n.indexOf(words[0])===0) - (a.n.indexOf(words[0])===0)});
+    if(!hits.length){
+      lab.textContent='Nenhum item encontrado';
+      out.innerHTML = '<div class="empty"><b>Não achamos “'+esc(q)+'”.</b><p class="note">Na dúvida, não misture com os recicláveis: use o cinza (rejeito). Pilhas, eletrônicos, lâmpadas e vidro quebrado nunca vão em lixeira.</p><p class="note">Fale com a SIS pelo e-mail no fim da página.</p></div>';
+      return;
+    }
+    lab.textContent = hits.length===1 ? '1 resultado' : hits.length+' resultados';
+    out.innerHTML = hits.slice(0,8).map(function(x){return card(x.it)}).join('');
+  }
+  var q=$('q');
+  q.addEventListener('input',function(){search(q.value)});
+  $('chips').innerHTML = CHIPS.map(function(c){return '<button type="button">'+esc(c)+'</button>'}).join('');
+  $('chips').addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    q.value=b.textContent; search(q.value);
+  });
+  search('');
+
+  /* Lixeiras */
+  var active='cinza';
+  function renderBins(){
+    $('bins').innerHTML = ORDER.map(function(k){
+      var b=BINS[k];
+      return '<button type="button" class="bt" data-k="'+k+'" aria-pressed="'+(k===active)+'">'+bin(k)+'<b>'+b.nome+'</b><span>'+b.cor+'</span></button>';
+    }).join('');
+    var b=BINS[active];
+    function items(list,no){return list.map(function(p){return '<div class="it'+(no?' no':'')+'"><span class="i">'+ic(p[0])+'</span>'+esc(p[1])+'</div>'}).join('')}
+    $('panel').innerHTML =
+      '<div class="panel-h bg-'+active+' '+active+'"><span class="bw">'+bin(active)+'</span><div><h3>'+b.cor+' · '+b.nome+'</h3><p>'+esc(b.dica)+'</p></div></div>'+
+      '<div class="panel-b"><div class="col"><h4><span class="mk ok">✓</span>Pode</h4><div class="grid-it">'+items(b.pode)+'</div></div>'+
+      '<div class="col"><h4><span class="mk no">✕</span>Não pode</h4><div class="grid-it">'+items(b.nao,true)+'</div></div></div>'+
+      '<div class="panel-f"><span><b>Destino:</b> '+esc(b.destino)+'</span></div>';
+  }
+  $('bins').addEventListener('click',function(e){
+    var t=e.target.closest('.bt'); if(!t) return;
+    active=t.getAttribute('data-k'); renderBins();
+  });
+  renderBins();
+
+  /* Rejeito */
+  $('rej-bin').innerHTML = bin('cinza');
+  var REJ = [['tp','Papel higiênico'],['towel','Papel toalha'],['napkin','Guardanapo usado'],['lunch','Marmita suja'],['cupdirty','Copo com café ou suco'],['tray','Isopor sujo'],['pizza','Caixa de pizza engordurada'],['sticker','Adesivos e etiquetas'],['tp','Lixo de banheiro'],['snack','Embalagem metalizada']];
+  $('rej-items').innerHTML = REJ.map(function(p){return '<div class="it"><span class="i">'+ic(p[0])+'</span>'+esc(p[1])+'</div>'}).join('');
+  var PAIRS = [
+    ['cup','Copo','Limpo, sem líquido','vermelho','cupdirty','Com café ou suco'],
+    ['pot','Marmita plástica','Esvaziada e enxaguada','vermelho','lunch','Com comida grudada'],
+    ['tray','Isopor','Limpo','vermelho','tray','Sujo de comida'],
+    ['box','Papelão','Limpo e seco','azul','pizza','Engordurado, como caixa de pizza']
+  ];
+  $('pairs').innerHTML = PAIRS.map(function(p){
+    return '<div class="pair">'+
+      '<div class="side"><span class="i">'+ic(p[0])+'</span><div><b>'+esc(p[1])+'</b><p>'+esc(p[2])+'</p><div style="margin-top:6px">'+pillShort(p[3])+'</div></div></div>'+
+      '<div class="side"><span class="i">'+ic(p[4])+'</span><div><b>'+esc(p[1])+'</b><p>'+esc(p[5])+'</p><div style="margin-top:6px">'+pillShort('cinza')+'</div></div></div>'+
+    '</div>';
+  }).join('');
+
+  var STEPS = [
+    {q:'É pilha, bateria, eletrônico, lâmpada, cartucho, toner ou vidro quebrado?',sim:'FORA',nao:1},
+    {q:'É resto de comida, casca de fruta ou borra de café?',sim:'MARROM',nao:2},
+    {q:'É papel de escritório, caixa, embalagem plástica, lata ou vidro inteiro?',h:'Papel higiênico, papel toalha, guardanapo, adesivo e embalagem metalizada não contam.',sim:3,nao:'CINZA_NR'},
+    {q:'Está limpo e seco, ou dá para esvaziar e enxaguar agora?',sim:'RECICLA',nao:'CINZA_SUJO'}
+  ];
+  var OUT = {
+    FORA:'<div class="qr-out"><p class="q">Não vai em lixeira.</p><div class="pills">'+spPill('recepcao')+'<span class="note" style="color:var(--rej-muted);align-self:center">pilhas, baterias e pequenos eletrônicos</span></div><div class="pills">'+spPill('limpeza')+'<span class="note" style="color:var(--rej-muted);align-self:center">vidro quebrado</span></div><div class="pills">'+spPill('fluxo')+'<span class="note" style="color:var(--rej-muted);align-self:center">lâmpadas, cartuchos e toners</span></div></div>',
+    MARROM:'<div class="qr-out"><p class="q">Orgânico.</p>'+pill('marrom')+'<p class="qh">Sem guardanapo, sem embalagem, sem líquido.</p></div>',
+    CINZA_NR:'<div class="qr-out"><p class="q">Rejeito: não é reciclável.</p>'+pill('cinza')+'</div>',
+    CINZA_SUJO:'<div class="qr-out"><p class="q">Rejeito: sujo contamina os recicláveis.</p>'+pill('cinza')+'</div>',
+    RECICLA:'<div class="qr-out"><p class="q">Reciclável. Use a cor do material:</p><div class="pills">'+pill('azul')+pill('vermelho')+pill('amarelo')+pill('verde')+'</div></div>'
+  };
+  var step=0;
+  function renderQuiz(res){
+    var dots='<div class="dots" aria-hidden="true">'+STEPS.map(function(_,i){return '<i class="'+(res||i<=step?'on':'')+'"></i>'}).join('')+'</div>';
+    if(res){
+      $('quiz').innerHTML = dots+OUT[res]+'<button type="button" class="again" id="again">Recomeçar</button>';
+      $('again').onclick=function(){step=0;renderQuiz()};
+      return;
+    }
+    var s=STEPS[step];
+    $('quiz').innerHTML = dots+'<p class="qh">Pergunta '+(step+1)+' de '+STEPS.length+'</p><p class="q">'+esc(s.q)+'</p>'+(s.h?'<p class="qh">'+esc(s.h)+'</p>':'')+
+      '<div class="qb"><button type="button" class="yes" data-a="sim">Sim</button><button type="button" data-a="nao">Não</button></div>';
+  }
+  $('quiz').addEventListener('click',function(e){
+    var b=e.target.closest('[data-a]'); if(!b) return;
+    var next=STEPS[step][b.getAttribute('data-a')];
+    if(typeof next==='number'){step=next;renderQuiz()} else {renderQuiz(next)}
+  });
+  renderQuiz();
+
+  /* Fora das lixeiras */
+  var FORA = [
+    [['battery','phone'],'Pilhas, baterias e pequenos eletrônicos','Coletores da recepção','Celular, carregador, cabo, fone.'],
+    [['broken'],'Vidro quebrado','Entregue à equipe de limpeza','Ela acondiciona em recipiente rígido com o aviso “CUIDADO: VIDRO QUEBRADO”.'],
+    [['bulb','toner','monitor'],'Lâmpadas, cartuchos, toners e computadores','Fluxo próprio','Logística reversa e Programa Descarte Correto.'],
+    [['chair'],'Móveis e volumosos','Fluxo próprio','Precisa descartar? Fale com a SIS.']
+  ];
+  $('fora-g').innerHTML = FORA.map(function(f){
+    return '<div class="fc"><div class="hazard" aria-hidden="true"></div><div class="icons">'+f[0].map(function(n){return '<span>'+ic(n)+'</span>'}).join('')+'</div><b>'+esc(f[1])+'</b><span class="to">'+esc(f[2])+'</span><p>'+esc(f[3])+'</p></div>';
+  }).join('');
+
+  /* Destino */
+  function minis(keys){return '<span class="bins-mini">'+keys.map(function(k){return bin(k)}).join('')+'</span>'}
+  $('flow').innerHTML =
+    '<div class="fl">'+minis(['azul','vermelho','amarelo','verde'])+'<p><b>Recicláveis</b> <span class="arrow">→</span> empresa contratada, coleta quinzenal <span class="arrow">→</span> reciclagem</p></div>'+
+    '<div class="fl">'+minis(['marrom'])+'<p><b>Orgânico</b> <span class="arrow">→</span> coleta pública municipal</p></div>'+
+    '<div class="fl">'+minis(['cinza'])+'<p><b>Rejeito</b> <span class="arrow">→</span> coleta pública municipal <span class="arrow">→</span> aterro sanitário</p></div>';
+
+  /* Copiar e-mail */
+  $('copy').addEventListener('click',function(){
+    var t=$('mail').textContent, btn=this;
+    function sel(){try{var r=document.createRange();r.selectNodeContents($('mail'));var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}}
+    try{
+      navigator.clipboard.writeText(t).then(function(){btn.textContent='Copiado'},function(){sel();btn.textContent='Selecionado'});
+    }catch(e){sel();btn.textContent='Selecionado'}
+  });
+})();
+</script>
+
+</body>
+</html>
